@@ -1,0 +1,33 @@
+
+body { 
+    font-size: 20px;
+    width: 60%;
+    margin:3% auto;
+    border: 24px solid #6C8780;
+    font-family: Source Sans Pro, sans-serif;
+}
+
+.date {
+    letter-spacing: 0.2rem;
+    color: #3498db;
+    padding: 20px 15px 5px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.article-title {
+    font-weight: bold;
+    padding: 15px;
+    font-size: 40px;
+    
+}
+
+.sub-text {
+    border-left: 8px solid #6C8780;
+    margin-left: 15px;
+    padding: 8px 5px;
+}
+
+p {
+    padding: 3px 15px;
+}
