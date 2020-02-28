@@ -1,120 +1,40 @@
 
 var numSquares = 6;
-var colors = generateRandomColors(numSquares);
+var colors = [];
+var goalColor;
+
 var squares = document.querySelectorAll(".square");
-var goalColor = pickColor();
 var colorDisplay = document.getElementById("colorDisplay");
 var messageDisplay = document.querySelector("#message");
 var h1 = document.querySelector("h1");
 var resetBtn = document.querySelector("#resetBtn");
-var easyBtn = document.querySelector("#easyBtn");
-var hardBtn = document.querySelector("#hardBtn");
+var modeBtn = document.querySelectorAll(".mode")
+
+
+init();
+
+function init() {
+
+    // Set up mode buttons
+    setUpModeButtons();
+
+    // Set up squares
+    setUpSquares();
+
+    // Reset colors
+    resetColor();
+
+}
+
 
 // Event listener for reset button
 resetBtn.addEventListener("click", function () {
-    
-    // Generate array of random colors
-    colors = generateRandomColors(numSquares);
 
-    // Set goal color to random color
-    goalColor = pickColor();
-
-    colorDisplay.textContent = goalColor;
-    messageDisplay.textContent = "";
-
-    for (var i = 0; i < squares.length; i++) {
-        squares[i].style.backgroundColor = colors[i];
-    }
-    h1.style.backgroundColor = "#steelblue";   
-    
-    this.textContent = "New Colors";
+    resetColor();
 
 });
 
-easyBtn.addEventListener("click", function () {
 
-    // Set number of squares
-    numSquares = 3;
-
-    // Remove chosen option style from "hard" button
-    hardBtn.classList.remove("selected");
-
-    // Show easy button as chosen option
-    easyBtn.classList.add("selected");
-
-    // Erase message
-    messageDisplay.textContent = "";
-
-    // Generate 3 RGB values to fill 3 squares for "easy" mode
-    colors = generateRandomColors(numSquares);
-    goalColor = pickColor();
-
-    // Display RGB value
-    colorDisplay.textContent = goalColor;
-
-    for (var i = 0; i < squares.length; i++) {
-        // If colors exists, set square color as color
-        if (colors[i]) {
-            squares[i].style.backgroundColor = colors[i];
-        } else {
-            squares[i].style.display = "none";
-        }
-    }
-});
-
-hardBtn.addEventListener("click", function () {
-
-    numSquares = 6;
-
-    hardBtn.classList.add("selected");
-    easyBtn.classList.remove("selected");
-    messageDisplay.textContent = "";
-
-    // Generate 3 RGB values to fill 3 squares for "easy" mode
-    colors = generateRandomColors(numSquares);
-    goalColor = pickColor();
-
-    // Display RGB value
-    colorDisplay.textContent = goalColor;
-
-    for (var i = 0; i < squares.length; i++) {
-        // If colors exists, set square color as color
-        squares[i].style.backgroundColor = colors[i];
-        squares[i].style.display = "block";
-    }
-});
-
-colorDisplay.textContent = goalColor;
-
-for (var i = 0; i < squares.length; i++) {
-
-    // Add initial colors to squares
-    squares[i].style.backgroundColor = colors[i];
-
-    // Add click listeners to squares
-    squares[i].addEventListener("click", function () {
-
-        // Get color of clicked square
-        var clickedColor = this.style.backgroundColor;
-
-        // Correct guess sets all squares and header color
-        // to the color of the answer square
-        if (clickedColor === goalColor) {
-            messageDisplay.textContent = "Correct";
-            h1.style.backgroundColor = goalColor;
-            changeColor(goalColor);
-            resetBtn.textContent = "Play Again?";
-
-
-            // Incorrect guess "erases" square by changing color
-            // to background color
-        } else {
-            this.style.background = "#232323";
-            messageDisplay.textContent = "Try Again";
-
-        }
-    });
-}
 
 
 function changeColor(color) {
@@ -151,4 +71,86 @@ function randomColor() {
 
     // Make into rgb(red, green, blue) string format
     return "rgb(" + r + ", " + g + ", " + b + ")";
+}
+
+function resetColor() {
+    // Generate array of random colors
+    colors = generateRandomColors(numSquares);
+
+    // Set goal color to random color
+    goalColor = pickColor();
+
+    colorDisplay.textContent = goalColor;
+    messageDisplay.textContent = "";
+
+    for (var i = 0; i < squares.length; i++) {
+        if (colors[i]) {
+            squares[i].style.display = "block";
+            squares[i].style.backgroundColor = colors[i];
+        } else {
+            squares[i].style.display = "none";
+        }
+
+        squares[i].style.backgroundColor = colors[i];
+    }
+
+    h1.style.backgroundColor = "steelblue";
+
+    resetBtn.textContent = "New Colors";
+}
+
+function setUpModeButtons() {
+    // Button listeners
+    for (var i = 0; i < modeBtn.length; i++) {
+
+        modeBtn[i].addEventListener("click", function () {
+
+            // Not ideal but hardcoding so that class selected 
+            // is removed from both buttons, then added to clicked button
+            modeBtn[0].classList.remove("selected");
+            modeBtn[1].classList.remove("selected");
+
+            // Add class selected to clicked button
+            this.classList.add("selected");
+
+            // Set correct number of squares
+            this.textContent === "Easy" ? numSquares = 3 : numSquares = 6;
+
+            resetColor();
+
+        })
+    }
+}
+
+function setUpSquares() {
+    colorDisplay.textContent = goalColor;
+
+    for (var i = 0; i < squares.length; i++) {
+
+        // Add initial colors to squares
+        squares[i].style.backgroundColor = colors[i];
+
+        // Add click listeners to squares
+        squares[i].addEventListener("click", function () {
+
+            // Get color of clicked square
+            var clickedColor = this.style.backgroundColor;
+
+            // Correct guess sets all squares and header color
+            // to the color of the answer square
+            if (clickedColor === goalColor) {
+                messageDisplay.textContent = "Correct";
+                h1.style.backgroundColor = goalColor;
+                changeColor(goalColor);
+                resetBtn.textContent = "Play Again?";
+
+            } else {
+
+                // Incorrect guess "erases" square by changing color
+                // to background color
+                this.style.background = "#232323";
+                messageDisplay.textContent = "Try Again";
+            }
+        });
+    }
 }
