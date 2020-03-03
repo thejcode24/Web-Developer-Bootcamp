@@ -24,13 +24,13 @@ $(function() {
         // Prevents event bubbling which means click is going
         // through all layers of DOM down to html
         event.stopPropagation();
-    })
+    });
 
     // Get input from text input box
     $("input[type='text']").keypress(function(event) {
 
         // Check if Enter key is pressed
-        if(event.which === 13) {
+        if(event.which===13) {
 
             // Get text input 
             var textInput = $(this).val();
