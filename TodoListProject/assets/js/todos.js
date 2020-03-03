@@ -39,8 +39,14 @@ $(function() {
             $(this).val("");
 
             // Create a new li and add to ul
-            $("ul").append("<li><span>x</span> "+ textInput + "</li>");
+            $("ul").append("<li><span><i class='fa fa-trash'></i></span> "+ textInput + "</li>");
         }  
-    })
+    });
+
+    $(".fa-plus").click(function() {
+        $("input[type='text']").fadeToggle();
+    });
 });
+
+
 
