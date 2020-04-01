@@ -5,8 +5,15 @@ const port = 3000
 
 app.set("view engine", "ejs")
 
+app.get("/", (req, res) => {
+    res.render("search")
+})
+
 app.get("/results", (req,res) => {
-    request("http://www.omdbapi.com/?s=california&apikey=49da81da", (error, response, body) => {
+    let query = req.query.search
+    let url = "http://www.omdbapi.com/?s="+ query + "&apikey=49da81da"
+
+    request(url , (error, response, body) => {
         if (!error && response.statusCode == 200) {
             let data = JSON.parse(body)
             res.render("results", {data: data})
